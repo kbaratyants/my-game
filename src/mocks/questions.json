@@ -1,0 +1,124 @@
+{
+  "categories": [
+    {
+      "name": "Браузер",
+      "questions": [
+        {
+          "points": 100,
+          "question": "Какой браузер является стандартным для Windows?",
+          "answer": "Microsoft Edge"
+        },
+        {
+          "points": 200,
+          "question": "Какая компания разработала браузер Chrome?",
+          "answer": "Google"
+        },
+        {
+          "points": 300,
+          "question": "Как называется браузер с открытым исходным кодом от Mozilla?",
+          "answer": "Firefox"
+        },
+        {
+          "points": 400,
+          "question": "Какой браузер считается самым популярным?",
+          "answer": "Google Chrome"
+        },
+        {
+          "points": 500,
+          "question": "Какой браузер использует движок Blink?",
+          "answer": "Google Chrome"
+        }
+      ]
+    },
+    {
+      "name": "Javascript",
+      "questions": [
+        {
+          "points": 100,
+          "question": "Какая компания создала JavaScript?",
+          "answer": "Netscape"
+        },
+        {
+          "points": 200,
+          "question": "Как называется стандарт JavaScript?",
+          "answer": "ECMAScript"
+        },
+        {
+          "points": 300,
+          "question": "Какая функция используется для вывода текста в консоль?",
+          "answer": "console.log"
+        },
+        {
+          "points": 400,
+          "question": "Какое ключевое слово используется для создания переменной в JavaScript?",
+          "answer": "let, var, const"
+        },
+        {
+          "points": 500,
+          "question": "Как называется асинхронная функция в JavaScript?",
+          "answer": "async function"
+        }
+      ]
+    },
+    {
+      "name": "CSS",
+      "questions": [
+        {
+          "points": 100,
+          "question": "Как расшифровывается CSS?",
+          "answer": "Cascading Style Sheets"
+        },
+        {
+          "points": 200,
+          "question": "Каким свойством задается цвет текста?",
+          "answer": "color"
+        },
+        {
+          "points": 300,
+          "question": "Какое свойство используется для задания фона?",
+          "answer": "background"
+        },
+        {
+          "points": 400,
+          "question": "Что означает свойство 'margin'?",
+          "answer": "Внешний отступ элемента"
+        },
+        {
+          "points": 500,
+          "question": "Какое свойство управляет внутренними отступами?",
+          "answer": "padding"
+        }
+      ]
+    },
+    {
+      "name": "Typescript",
+      "questions": [
+        {
+          "points": 100,
+          "question": "Какая компания разработала TypeScript?",
+          "answer": "Microsoft"
+        },
+        {
+          "points": 200,
+          "question": "TypeScript — это надмножество какого языка?",
+          "answer": "JavaScript"
+        },
+        {
+          "points": 300,
+          "question": "Какое расширение файлов у TypeScript?",
+          "answer": ".ts"
+        },
+        {
+          "points": 400,
+          "question": "Как называется тип для указания отсутствия значения в TypeScript?",
+          "answer": "void"
+        },
+        {
+          "points": 500,
+          "question": "Какой оператор используется для проверки наличия свойства у объекта?",
+          "answer": "in"
+        }
+      ]
+    }
+  ]
+}
