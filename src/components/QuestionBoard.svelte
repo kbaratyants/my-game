@@ -1,4 +1,6 @@
 <script lang="ts">
+  import oktech from "../assets/oktech-logo.svg";
+  import CharacterSelect from "./CharacterSelect.svelte";
   type Question = {
     answer: string;
     author: string;
@@ -50,7 +52,7 @@
     font-weight: 600;
   }
   .board {
-    margin-top: 180px;
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
