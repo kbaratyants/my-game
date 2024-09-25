@@ -15,7 +15,7 @@
     | "questionBoard"
     | "questionScreen"
     | "playerResult"
-    | "final" = "characterSelect";
+    | "final" = "start";
   let currentQuestion = "";
   let currentPoints = 0;
   let selectedPlayer: {
