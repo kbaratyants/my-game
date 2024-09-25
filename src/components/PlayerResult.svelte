@@ -1,17 +1,51 @@
 <script lang="ts">
-  export let player: { id: number, name: string, avatar: string, score: number } | undefined | null;
+  import oktech from "../assets/oktech-logo.svg";
+  export let player:
+    | { id: number; name: string; avatar: string; score: number }
+    | undefined
+    | null;
   export let pointsAdded: number;
   export let onNext: () => void;
 </script>
 
+<div class="result-container">
+  <img src={oktech} class="logo" alt="logo" />
+  <div class="bg1"></div>
+  <div class="bg2"></div>
+  <div class="player-info">
+    <img
+      class="avatar"
+      src={player?.avatar}
+      alt={player?.name}
+      width="150"
+      height="150"
+    />
+    <div class="points">
+      {pointsAdded > 0 ? `+${pointsAdded}` : `${pointsAdded}`}
+    </div>
+  </div>
+  <button on:click={onNext}>
+    <div class="arrow">></div>
+  </button>
+</div>
+
 <style>
+  .avatar {
+    position: absolute;
+    width: 70vh;
+    height: 70vh;
+    border-radius: 150px;
+    left: 20vh;
+    margin-top: 5vh;
+  }
+  .arrow {
+    transition: all 0.3s;
+    height: 95%;
+    font-size: 10vw;
+  }
   .result-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     height: 100vh;
-    background: linear-gradient(135deg, #f093fb, #f5576c);
   }
 
   .player-info {
@@ -21,25 +55,109 @@
   }
 
   .points {
-    font-size: 48px;
-    margin-top: 20px;
+    position: absolute;
+    bottom: 15vh;
+    display: flex;
+    width: 80vh;
+    padding: 0px 48px 2px 49px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 200px;
+    background-color: #fff;
+    color: black;
+    font-size: 20vh;
+    font-weight: 500;
   }
 
-  .next {
-    margin-top: 20px;
+  button {
     font-size: 24px;
-    padding: 10px 20px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    position: absolute;
+    transition: all 0.3s;
+    right: 7vw;
+    bottom: 3vw;
+    padding-left: 5vw;
+    border-radius: 100%;
+    background: black;
+    border: none;
+    width: 15vw;
+    height: 15vw;
+  }
+
+  button:hover {
+    background-color: #fff;
+  }
+
+  button:hover .arrow {
+    color: #000000;
+  }
+
+  button:active {
+    background-color: #ff7700;
+  }
+
+  button:active .arrow {
+    color: #ffffff;
+  }
+
+  .bg1 {
+    background-image: url("../assets/bg1.jpg");
+    z-index: -1;
+    animation: fade1 25s infinite;
+  }
+
+  /* Второе изображение начнет с прозрачности */
+  .bg2 {
+    background-image: url("../assets/bg2.jpg");
+    z-index: -2;
+    animation: fade2 25s infinite;
+  }
+
+  .bg1,
+  .bg2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .logo {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+  }
+
+  @keyframes fade1 {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  /* Анимация плавного перехода */
+  @keyframes fade2 {
+    0% {
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
   }
 </style>
-
-<div class="result-container">
-  <div class="player-info">
-    <img src={player?.avatar} alt={player?.name} width="150" height="150" />
-    <h2>{player?.name}</h2>
-    <div class="points">
-      {pointsAdded > 0 ? `+${pointsAdded}` : `${pointsAdded}`} очков
-    </div>
-  </div>
-  <button class="next" on:click={onNext}>Следующий вопрос</button>
-</div>

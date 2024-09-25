@@ -1,6 +1,6 @@
 <script lang="ts">
   import oktech from "../assets/oktech-logo.svg";
-  import CharacterSelect from "./CharacterSelect.svelte";
+
   type Question = {
     answer: string;
     author: string;
@@ -47,15 +47,17 @@
 
 <style>
   h3 {
+    margin: 0;
     display: block;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
   }
   .board {
-    margin-top: 100px;
+    height: 60vh;
+    margin-top: 150px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: 20px;
   }
@@ -71,13 +73,11 @@
     display: flex;
     width: 80%;
     gap: 10px;
-    font-size: 40px;
+    font-size: 1.5vw;
     font-weight: 600;
   }
 
   .question {
-    width: 18%;
-    height: 100px;
     border-radius: 50px;
     padding: 20px;
     background: black;
@@ -98,8 +98,8 @@
   }
 
   .question.selected {
-    background: rgba(128, 128, 128, 0.358);
-    color: #bababa49;
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.3);
     cursor: not-allowed;
   }
 
