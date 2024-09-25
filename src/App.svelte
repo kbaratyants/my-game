@@ -125,7 +125,7 @@
     <QuestionScreen
       question={currentQuestion}
       points={currentPoints}
-      {players}
+      bind:players={players}
       onSkip={handleSkip}
       onPositiveScoreChange={handlePositiveScoreChange}
       onNegativeScoreChange={handleNegativeScoreChange}

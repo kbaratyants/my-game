@@ -1,5 +1,8 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
+  import oktech from "../assets/oktech-logo.svg";
+  import plus from "../assets/plus.svg";
+  import minus from "../assets/minus.svg";
   export let question: {
     answer: string;
     author: string;
@@ -65,10 +68,16 @@
 </script>
 
 <div class="question-container">
+  <img src={oktech} alt="logo" class="logo" />
   <div class="bg1"></div>
   <div class="bg2"></div>
-  <div class="question-text">{question.question}</div>
-  <div class="timer">{timer}</div>
+  <div class="wrapper">
+    <div class="question-text">{question.question}</div>
+    <div class="wrapper-2">
+      <div class="timer">{timer}</div>
+      <button class="skip" on:click={onSkip}>Пропустить</button>
+    </div>
+  </div>
 
   {#if playerWithNegativeScore}
     <div class="negative-message">
@@ -80,24 +89,54 @@
     {#each players as player}
       <div class="player">
         <img src={player.avatar} alt={player.name} width="100" height="100" />
-        <div>{player.name}</div>
         <div class="buttons">
           <button
             class="button"
-            on:click={() => handleSubtractPoints(player.id)}>-</button
-          >
+            on:click={() => handleSubtractPoints(player.id)}
+            ><img src={minus} alt="" />
+          </button>
+          <div class="score">{question.points}</div>
           <button class="button" on:click={() => handleAddPoints(player.id)}
-            >+</button
+            ><img src={plus} alt="" /></button
           >
         </div>
+        <div class="line"></div>
+        <div class="name">{player.name}</div>
+        <div class="player-score">{player.score}</div>
       </div>
     {/each}
   </div>
 
-  <button class="skip" on:click={onSkip}>Пропустить</button>
 </div>
 
 <style>
+  .wrapper {
+    display: flex;
+    gap: 30px;
+  }
+  .name {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 48px;
+  }
+  .player-score {
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 42px;
+  }
+  .line {
+    width: 100%;
+    height: 2px;
+    background: white;
+  }
+  .logo {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+  }
+
   /* Первое изображение начнет с полной видимости */
   .bg1 {
     background-image: url("../assets/bg1.jpg");
@@ -128,23 +167,33 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding: 28px 91px 60px 33px;
+    flex-shrink: 1;
   }
 
   .question-text {
-    font-size: 24px;
     margin-bottom: 20px;
-    border-radius: 80px;
+    border-radius: 50px;
     background: var(--Black, #000);
-    padding: 43px 46px 70px 54px;
+    padding: 32px;
 
-    font-size: 72px;
+    font-size: 32px;
     font-style: normal;
     font-weight: 500;
-    line-height: 88px; /* 122.222% */
+    line-height: 40px;
   }
 
   .timer {
     font-size: 48px;
+    display: flex;
+    height: 240px;
+    width: 240px;
+    padding: 35px 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background: #000;
+    flex: 0 0 240px;
   }
 
   .players {
@@ -159,25 +208,59 @@
     flex-direction: column;
     align-items: center;
     margin: 10px;
+    border-radius: 56px;
+    background: black;
+    padding: 20px;
+  }
+
+  .player img {
+    width: 200px;
+    height: 200px;
+    border-radius: 42px;
   }
 
   .buttons {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    width: 100%;
     margin-top: 10px;
   }
 
-  .button {
-    font-size: 24px;
-    cursor: pointer;
-    padding: 5px;
+  .buttons img {
+    width: 100%;
+    height: 100%;
   }
 
-  .skip {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  .button {
     cursor: pointer;
+    /* padding: 5px; */
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+    border: none;
+  }
+
+  .score {
+    font-size: 56px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 56px; /* 100% */
+  }
+
+  .wrapper-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-evenly;
+  }
+  
+  .skip {
+    padding: 20px;
+    background: black;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
   }
 
   .negative-message {
