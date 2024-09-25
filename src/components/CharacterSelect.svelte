@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Character } from "./types";
+  import oktech from "../assets/oktech-logo.svg";
 
   export let characters: { id: number; name: string; avatar: string }[];
   export let onConfirm: (
@@ -7,6 +8,28 @@
   ) => void;
 
   let selectedCharacters: Character[] = [];
+
+  let scrollableContent: HTMLElement;
+  let scrollBar: HTMLElement;
+  let scrollBarInner: HTMLElement;
+
+  // Синхронизация скролла содержимого и кастомного скроллбара
+  function handleContentScroll() {
+    const scrollPercent =
+      scrollableContent.scrollLeft /
+      (scrollableContent.scrollWidth - scrollableContent.clientWidth);
+    scrollBarInner.style.transform = `translateX(${scrollPercent * (scrollBar.clientWidth - scrollBarInner.clientWidth)}px)`;
+  }
+
+  // Обработка клика по кастомному скроллбару
+  function handleScrollbarClick(event: MouseEvent) {
+    const clickPosition =
+      event.clientX - scrollBar.getBoundingClientRect().left;
+    const scrollPercent = clickPosition / scrollBar.clientWidth;
+    scrollableContent.scrollLeft =
+      scrollPercent *
+      (scrollableContent.scrollWidth - scrollableContent.clientWidth);
+  }
 
   function selectCharacter(character: Character) {
     if (selectedCharacters.includes(character)) {
@@ -28,6 +51,7 @@
 </script>
 
 <div class="wrap">
+  <img src={oktech} class="logo" alt="logo" />
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="text">
@@ -36,7 +60,11 @@
       {selectedCharacters.length} / 5
     </div>
   </div>
-  <div class="container">
+  <div
+    class="container"
+    bind:this={scrollableContent}
+    on:scroll={handleContentScroll}
+  >
     {#each characters as character}
       <div
         class="character {selectedCharacters.includes(character)
@@ -51,16 +79,54 @@
   </div>
 
   <button on:click={confirmSelection}>начать игру</button>
+
+  <div
+    class="custom-scrollbar"
+    on:click={handleScrollbarClick}
+    bind:this={scrollBar}
+  >
+    <div class="scroll-bar-inner" bind:this={scrollBarInner}></div>
+  </div>
 </div>
 
 <style>
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 60px;    
+    height: 100vh;
+  }
+
+  .custom-scrollbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background-color: black; /* Фон для визуализации */
+    display: flex;
+    align-items: center;
+  }
+
+  .scroll-bar-inner {
+    height: 100%;
+    background-color: white;
+    width: 30%; /* Установите длину скроллбара в зависимости от контента */
+  }
+
+  .logo {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+  }
   .text {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 60px 0 40px;
+    padding: 30px 120px 0 40px;
   }
-  
+
   /* Первое изображение начнет с полной видимости */
   .bg1 {
     background-image: url("../assets/bg1.jpg");
@@ -75,7 +141,8 @@
     animation: fade2 25s infinite;
   }
 
-  .choose, .counter {
+  .choose,
+  .counter {
     color: black;
     font-family: Tektur;
     font-size: 80px;
@@ -83,7 +150,7 @@
     font-weight: 600;
     line-height: 96px; /* 120% */
   }
-  
+
   .bg1,
   .bg2 {
     position: absolute;
@@ -104,27 +171,18 @@
     cursor: pointer;
     margin: 10px;
     text-align: center;
+    padding: 18px 18px 46px;
     padding: 18px;
     align-items: center;
     border-radius: 72px;
     background: rgba(0, 0, 0, 0.2);
     font-size: 32px;
+    transition: background-color 0.3s;
   }
 
   /* Стили для самого скроллбара */
   .container::-webkit-scrollbar {
-    height: 40px; /* Ширина скроллбара */
-  }
-
-  /* Стили для ползунка (thumb) */
-  .container::-webkit-scrollbar-thumb {
-    background-color: white; /* Цвет ползунка */
-    background-clip: padding-box; /* Корректировка границ */
-  }
-
-  /* Стили для фона скроллбара */
-  .container::-webkit-scrollbar-track {
-    background-color: black; /* Цвет фона */
+    display: none;
   }
 
   .character img {
@@ -134,15 +192,16 @@
   }
 
   .selected {
-    border: 2px solid green;
+    background-color: black;
   }
 
   button {
     display: flex;
+    justify-content: center;
+    margin: 0 5% 0 5%;
 
-    width: 80%;
-    margin-top: 20px;
-    padding: 36px 88px 42px 64px;
+    /* width: 80%; */
+    /* padding: 36px 88px 42px 64px; */
     font-size: 16px;
 
     border-radius: 120px;

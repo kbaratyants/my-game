@@ -19,4 +19,5 @@ body {
 
 * {
   font-family: "Tektur", sans-serif;
+  box-sizing: border-box;
 }
