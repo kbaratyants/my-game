@@ -1,18 +1,42 @@
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition';
+  type Question = {
+    answer: string;
+    author: string;
+    points: number;
+    question: string;
+    selected: boolean;
+  };
 
-  export let categories: { name: string; questions: { points: number; selected: boolean }[] }[];
-  export let onQuestionSelected: (question: string, points: number) => void;
+  export let categories: {
+    name: string;
+    questions: Question[];
+  }[];
+  export let onQuestionSelected: (question: Question, points: number) => void;
 
   function selectQuestion(categoryIndex: number, questionIndex: number) {
     const question = categories[categoryIndex].questions[questionIndex];
     if (!question.selected) {
       question.selected = true;
-      console.log(question);
-      onQuestionSelected(`Вопрос из категории ${categories[categoryIndex]}`, question.points);
+      onQuestionSelected(question, question.points);
     }
   }
 </script>
+
+<div class="board">
+  {#each categories as category, i}
+    <div class="category">
+      <h3>{category.name}</h3>
+      {#each category.questions as question, j}
+        <div
+          class="question {question.selected ? 'selected' : ''}"
+          on:click={() => selectQuestion(i, j)}
+        >
+          {question.selected ? "---" : "+" + question.points}
+        </div>
+      {/each}
+    </div>
+  {/each}
+</div>
 
 <style>
   .board {
@@ -34,16 +58,3 @@
     cursor: not-allowed;
   }
 </style>
-
-<div class="board">
-  {#each categories as category, i}
-    <div class="category">
-      <h3>{category.name}</h3>
-      {#each category.questions as question, j}
-        <div class="question {question.selected ? 'selected' : ''}" on:click={() => selectQuestion(i, j)}>
-          {question.selected ? '---' : '+' + question.points}
-        </div>
-      {/each}
-    </div>
-  {/each}
-</div>

@@ -8,7 +8,16 @@
   import FinalScreen from "./components/FinalScreen.svelte";
   import type { Character } from "./components/types";
   import { characters } from "./mocks/chatracters";
+  import questions from "./mocks/questions.json";
 
+  type Question = {
+    answer: string;
+    author: string;
+    points: number;
+    question: string;
+    selected: boolean;
+  };
+  
   let currentScreen:
     | "start"
     | "characterSelect"
@@ -16,7 +25,9 @@
     | "questionScreen"
     | "playerResult"
     | "final" = "start";
-  let currentQuestion = "";
+  
+  //@ts-ignore
+  let currentQuestion: Question = {};
   let currentPoints = 0;
   let selectedPlayer: {
     id: number;
@@ -33,28 +44,21 @@
     score: number;
   }[] = []; // Игроки будут выбраны позже
 
-  let categories = [
-    {
-      name: "Браузер",
-      questions: [
-        { points: 100, selected: false },
-        { points: 200, selected: false },
-        { points: 300, selected: false },
-        { points: 400, selected: false },
-        { points: 500, selected: false },
-      ],
-    },
-    {
-      name: "Javascript",
-      questions: [
-        { points: 100, selected: false },
-        { points: 200, selected: false },
-        { points: 300, selected: false },
-        { points: 400, selected: false },
-        { points: 500, selected: false },
-      ],
-    },
-  ];
+  function addSelectedFieldToQuestions(jsonData: any) {
+    //@ts-ignore
+    return jsonData.categories.map((category) => {
+      return {
+        ...category,
+        //@ts-ignore
+        questions: category.questions.map((question) => ({
+          ...question,
+          selected: false,
+        })),
+      };
+    });
+  }
+ 
+  const categories = addSelectedFieldToQuestions(questions);
 
   // Функция для начала игры
   function handleStartGame() {
@@ -72,7 +76,7 @@
     currentScreen = "questionBoard"; // Переход на доску вопросов
   }
 
-  function handleQuestionSelection(question: string, points: number) {
+  function handleQuestionSelection(question: Question, points: number) {
     currentQuestion = question;
     currentPoints = points;
     currentScreen = "questionScreen";
@@ -102,7 +106,6 @@
       category.questions.every((q) => q.selected)
     );
 
-    console.log({ allQuestionsSelected });
     if (allQuestionsSelected) {
       currentScreen = "final";
     } else {
