@@ -17,7 +17,7 @@
     question: string;
     selected: boolean;
   };
-  
+
   let currentScreen:
     | "start"
     | "characterSelect"
@@ -25,7 +25,7 @@
     | "questionScreen"
     | "playerResult"
     | "final" = "start";
-  
+
   //@ts-ignore
   let currentQuestion: Question = {};
   let currentPoints = 0;
@@ -57,7 +57,7 @@
       };
     });
   }
- 
+
   const categories = addSelectedFieldToQuestions(questions);
 
   // Функция для начала игры
@@ -102,7 +102,9 @@
   }
 
   function nextQuestion() {
+    // @ts-ignore
     const allQuestionsSelected = categories.every((category) =>
+      // @ts-ignore
       category.questions.every((q) => q.selected)
     );
 
