@@ -57,7 +57,7 @@
   <div class="text">
     <div class="choose">Выбери от 2 до 5 игроков</div>
     <div class="counter">
-      {selectedCharacters.length} / 5
+      <span class="number" class:active={selectedCharacters.length}>{selectedCharacters.length}</span> / 5
     </div>
   </div>
   <div
@@ -78,7 +78,7 @@
     {/each}
   </div>
 
-  <button on:click={confirmSelection}>начать игру</button>
+  <button class:active={selectedCharacters.length >= 2} on:click={confirmSelection}>начать игру</button>
 
   <div
     class="custom-scrollbar"
@@ -107,6 +107,14 @@
     background-color: black; /* Фон для визуализации */
     display: flex;
     align-items: center;
+  }
+  
+  .number {
+    color: rgba(255, 255, 255, 0.30);
+  }
+  
+  .number.active {
+    color: white;
   }
 
   .scroll-bar-inner {
@@ -206,14 +214,37 @@
 
     border-radius: 120px;
     background: rgba(0, 0, 0, 0.2);
+    border: none;
 
     color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
 
     text-align: center;
     font-family: Tektur;
     font-size: 104px;
     font-style: normal;
     font-weight: 500;
+    transition: all 0.5s;
+  }
+  button.active {
+    cursor: pointer;
+    background: black;
+    color: white;
+  }
+  
+  button.active:hover {
+    background: white;
+    color: black;
+  }
+  
+  button.active:hover {
+    background: white;
+    color: black;
+  }
+  
+  button.active:active {
+    background: #F70;
+    color: black;
   }
 
   /* Анимация плавного перехода */
