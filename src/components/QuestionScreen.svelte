@@ -24,7 +24,7 @@
     | null
     | undefined = null;
 
-  let maxNumber = 5; // Максимальное значение для генерации случайного числа
+  let maxNumber = players.length; // Максимальное значение для генерации случайного числа
   let randomValue = 0; // Случайное число, которое мы будем генерировать
 
   // Функция для генерации случайного числа от 1 до maxNumber
@@ -312,6 +312,7 @@
     border: none;
     cursor: pointer;
     font-size: 24px;
+    color: white;
   }
 
   .negative-message {

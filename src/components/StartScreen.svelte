@@ -36,6 +36,7 @@
     transition: all 0.3s;
     height: 95%;
     font-size: 10vw;
+    color: white;
   }
 
   .content {
