@@ -114,7 +114,7 @@
     selectedPlayer = null; // Сбрасываем игрока для правильного отображения при неверном ответе
     pointsAdded = 0;  // Никакие баллы не добавляются при неправильном ответе
     showAnswer = true; // Показываем только ответ
-    currentScreen = "playerResult"; // Переход на экран результата
+    // currentScreen = "playerResult"; // Переход на экран результата
   }
 
   function nextQuestion() {
