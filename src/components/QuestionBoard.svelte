@@ -1,22 +1,13 @@
 <script lang="ts">
   import oktech from "../assets/oktech-logo.svg";
+  import type { QuestionsData, Question } from "./types"; // Убедитесь, что Question импортируется из types
 
-  type Question = {
-    answer: string;
-    author: string;
-    points: number;
-    question: string;
-    selected: boolean;
-  };
-
-  export let categories: {
-    name: string;
-    questions: Question[];
-  }[];
+  export let categories: QuestionsData; // Указываем, что categories - это QuestionsData
   export let onQuestionSelected: (question: Question, points: number) => void;
 
   function selectQuestion(categoryIndex: number, questionIndex: number) {
-    const question = categories[categoryIndex].questions[questionIndex];
+    const question =
+      categories.categories[categoryIndex].questions[questionIndex]; // Обновляем доступ к вопросам
     if (!question.selected) {
       question.selected = true;
       onQuestionSelected(question, question.points);
@@ -28,9 +19,10 @@
   <img src={oktech} class="logo" alt="logo" />
   <div class="bg1"></div>
   <div class="bg2"></div>
-  {#each categories as category, i}
+  {#each categories.categories as category, i}
+    <!-- Исправлено: добавлен доступ к categories -->
     <div class="category">
-      <h3>{category.name}</h3>
+      <h3 class="category-name">{category.name}</h3>
       <div class="questions">
         {#each category.questions as question, j}
           <div
@@ -52,8 +44,12 @@
     font-size: 30px;
     font-weight: 600;
   }
+  
+  .category-name {
+    font-size: 48px;
+  }
   .board {
-    height: 60vh;
+    height: 72vh;
     margin-top: 150px;
     display: flex;
     flex-direction: column;
@@ -71,20 +67,21 @@
 
   .questions {
     display: flex;
+    justify-content: space-evenly;
     width: 80%;
-    gap: 10px;
     font-size: 1.5vw;
     font-weight: 600;
   }
 
   .question {
     border-radius: 50px;
-    padding: 20px;
+    padding: 28px 36px;
     background: black;
     color: white;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
+    font-size: 32px;
   }
 
   .question:hover {
@@ -109,7 +106,6 @@
     animation: fade1 25s infinite;
   }
 
-  /* Второе изображение начнет с прозрачности */
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
@@ -147,7 +143,6 @@
     }
   }
 
-  /* Анимация плавного перехода */
   @keyframes fade2 {
     0% {
       opacity: 0;

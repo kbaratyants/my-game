@@ -6,17 +6,19 @@
   import QuestionScreen from "./components/QuestionScreen.svelte";
   import PlayerResult from "./components/PlayerResult.svelte";
   import FinalScreen from "./components/FinalScreen.svelte";
-  import type { Character } from "./components/types";
+  import type {
+    Category,
+    Character,
+    Question,
+    QuestionsData,
+  } from "./components/types";
   import { characters } from "./mocks/chatracters";
-  import questions from "./mocks/questions.json";
+  import questions from "./mocks/questions.json"; // Убедитесь, что у вас TypeScript поддерживает это
 
-  type Question = {
-    answer: string;
-    author: string;
-    points: number;
-    question: string;
-    selected: boolean;
-  };
+  // Используйте тип QuestionsData для вопросов
+  const categories: QuestionsData = getRandomQuestions(
+    questions as QuestionsData
+  );
 
   let currentScreen:
     | "start"
@@ -26,8 +28,7 @@
     | "playerResult"
     | "final" = "start";
 
-  //@ts-ignore
-  let currentQuestion: Question = {};
+  let currentQuestion: Question | null = null; // Указываем, что может быть null
   let currentPoints = 0;
   let selectedPlayer: {
     id: number;
@@ -42,30 +43,49 @@
     name: string;
     avatar: string;
     score: number;
-  }[] = []; // Игроки будут выбраны позже
+  }[] = [];
 
-  function addSelectedFieldToQuestions(jsonData: any) {
-    //@ts-ignore
-    return jsonData.categories.map((category) => {
-      return {
-        ...category,
-        //@ts-ignore
-        questions: category.questions.map((question) => ({
-          ...question,
-          selected: false,
-        })),
-      };
+  function getRandomQuestions(data: QuestionsData): QuestionsData {
+    const result: QuestionsData = { categories: [] }; // Новый объект для результата
+
+    data.categories.forEach((category: Category) => {
+      const pointsMap: { [key: number]: Question[] } = {};
+
+      // Группируем вопросы по стоимости
+      category.questions.forEach((question: Question) => {
+        const points = question.points;
+        if (!pointsMap[points]) {
+          pointsMap[points] = [];
+        }
+        pointsMap[points].push(question);
+      });
+
+      // Выбираем один вопрос из каждой группы стоимости
+      const selectedQuestions: Question[] = [];
+      for (const points in pointsMap) {
+        const questionsWithSamePoints = pointsMap[points];
+        const randomQuestion =
+          questionsWithSamePoints[
+            Math.floor(Math.random() * questionsWithSamePoints.length)
+          ];
+        // Добавляем случайный вопрос в список выбранных
+        selectedQuestions.push({ ...randomQuestion, selected: false }); // Сбросим selected на false
+      }
+
+      // Добавляем категорию с выбранными вопросами
+      result.categories.push({ ...category, questions: selectedQuestions });
     });
+
+    console.log(result);
+    return result;
   }
 
-  const categories = addSelectedFieldToQuestions(questions);
+  console.log(categories);
 
-  // Функция для начала игры
   function handleStartGame() {
-    currentScreen = "characterSelect"; // Сначала выбираем персонажей
+    currentScreen = "characterSelect";
   }
 
-  // Подтверждаем выбор игроков
   function handleCharacterSelect(selectedCharacters: Character[]) {
     players = selectedCharacters.map((character) => ({
       id: character.id,
@@ -73,13 +93,15 @@
       avatar: character.avatar,
       score: 0,
     }));
-    currentScreen = "questionBoard"; // Переход на доску вопросов
+    currentScreen = "questionBoard";
   }
 
   function handleQuestionSelection(question: Question, points: number) {
     currentQuestion = question;
     currentPoints = points;
     currentScreen = "questionScreen";
+    // Обновляем состояние selected для выбранного вопроса
+    question.selected = true;
   }
 
   function handleSkip() {
@@ -87,24 +109,29 @@
   }
 
   function handlePositiveScoreChange(playerId: number, points: number) {
-    // @ts-ignore
-    selectedPlayer = players.find((player) => player.id === playerId);
-    if (selectedPlayer) selectedPlayer.score += points;
+    players = players.map((player) => {
+      if (player.id === playerId) {
+        return { ...player, score: player.score + points };
+      }
+      return player;
+    });
+    selectedPlayer = players.find((player) => player.id === playerId) || null;
     pointsAdded = points;
     currentScreen = "playerResult";
   }
 
   function handleNegativeScoreChange(playerId: number) {
-    //@ts-ignore
-    selectedPlayer = players.find((player) => player.id === playerId);
-    if (selectedPlayer) selectedPlayer.score -= currentPoints;
-    // Остальные игроки могут попытаться ответить
+    players = players.map((player) => {
+      if (player.id === playerId) {
+        return { ...player, score: player.score - currentPoints };
+      }
+      return player;
+    });
+    selectedPlayer = players.find((player) => player.id === playerId) || null;
   }
 
   function nextQuestion() {
-    // @ts-ignore
-    const allQuestionsSelected = categories.every((category) =>
-      // @ts-ignore
+    const allQuestionsSelected = categories.categories.every((category) =>
       category.questions.every((q) => q.selected)
     );
 
@@ -127,19 +154,14 @@
     <QuestionScreen
       question={currentQuestion}
       points={currentPoints}
-      bind:players={players}
+      {players}
       onSkip={handleSkip}
       onPositiveScoreChange={handlePositiveScoreChange}
       onNegativeScoreChange={handleNegativeScoreChange}
     />
-    <!-- in:fly={{ y: 200 }}
-    out:fly={{ y: -200 }} -->
   {:else if currentScreen === "playerResult"}
     <PlayerResult player={selectedPlayer} {pointsAdded} onNext={nextQuestion} />
-    <!-- in:fade
-    out:fade -->
   {:else if currentScreen === "final"}
     <FinalScreen {players} />
-    <!-- in:fade out:fade -->
   {/if}
 </div>

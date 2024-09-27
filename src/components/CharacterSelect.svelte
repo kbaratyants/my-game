@@ -9,28 +9,6 @@
 
   let selectedCharacters: Character[] = [];
 
-  let scrollableContent: HTMLElement;
-  let scrollBar: HTMLElement;
-  let scrollBarInner: HTMLElement;
-
-  // Синхронизация скролла содержимого и кастомного скроллбара
-  function handleContentScroll() {
-    const scrollPercent =
-      scrollableContent.scrollLeft /
-      (scrollableContent.scrollWidth - scrollableContent.clientWidth);
-    scrollBarInner.style.transform = `translateX(${scrollPercent * (scrollBar.clientWidth - scrollBarInner.clientWidth)}px)`;
-  }
-
-  // Обработка клика по кастомному скроллбару
-  function handleScrollbarClick(event: MouseEvent) {
-    const clickPosition =
-      event.clientX - scrollBar.getBoundingClientRect().left;
-    const scrollPercent = clickPosition / scrollBar.clientWidth;
-    scrollableContent.scrollLeft =
-      scrollPercent *
-      (scrollableContent.scrollWidth - scrollableContent.clientWidth);
-  }
-
   function selectCharacter(character: Character) {
     if (selectedCharacters.includes(character)) {
       selectedCharacters = selectedCharacters.filter(
@@ -61,10 +39,7 @@
     </div>
   </div>
   <div
-    class="container"
-    bind:this={scrollableContent}
-    on:scroll={handleContentScroll}
-  >
+    class="container">
     {#each characters as character}
       <div
         class="character {selectedCharacters.includes(character)
@@ -79,14 +54,6 @@
   </div>
 
   <button class:active={selectedCharacters.length >= 2} on:click={confirmSelection}>начать игру</button>
-
-  <div
-    class="custom-scrollbar"
-    on:click={handleScrollbarClick}
-    bind:this={scrollBar}
-  >
-    <div class="scroll-bar-inner" bind:this={scrollBarInner}></div>
-  </div>
 </div>
 
 <style>
@@ -97,17 +64,6 @@
     padding-bottom: 60px;    
     height: 100vh;
   }
-
-  .custom-scrollbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background-color: black; /* Фон для визуализации */
-    display: flex;
-    align-items: center;
-  }
   
   .number {
     color: rgba(255, 255, 255, 0.30);
@@ -117,11 +73,6 @@
     color: white;
   }
 
-  .scroll-bar-inner {
-    height: 100%;
-    background-color: white;
-    width: 30%; /* Установите длину скроллбара в зависимости от контента */
-  }
 
   .logo {
     position: absolute;
@@ -172,20 +123,20 @@
 
   .container {
     display: flex;
-    overflow: scroll;
-    overflow-y: hidden; /* Отключить вертикальный скроллбар */
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .character {
     cursor: pointer;
     margin: 10px;
     text-align: center;
-    padding: 18px 18px 46px;
-    padding: 18px;
+    padding: 24px;
     align-items: center;
     border-radius: 72px;
     background: rgba(0, 0, 0, 0.2);
-    font-size: 32px;
+    font-size: 24px;
     transition: background-color 0.3s;
+    flex: 1 1 200px;
   }
 
   /* Стили для самого скроллбара */
@@ -194,9 +145,9 @@
   }
 
   .character img {
-    width: 280px;
-    height: 280px;
-    border-radius: 56px;
+    width: 170px;
+    height: 170px;
+    border-radius: 28px;
   }
 
   .selected {

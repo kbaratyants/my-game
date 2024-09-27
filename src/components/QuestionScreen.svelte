@@ -3,13 +3,9 @@
   import oktech from "../assets/oktech-logo.svg";
   import plus from "../assets/plus.svg";
   import minus from "../assets/minus.svg";
-  export let question: {
-    answer: string;
-    author: string;
-    points: number;
-    question: string;
-    selected: boolean;
-  };
+  import type { Question } from "./types";
+
+  export let question: Question | null;
   export let points: number;
   export let players: {
     id: number;
@@ -21,7 +17,7 @@
   export let onPositiveScoreChange: (playerId: number, points: number) => void;
   export let onNegativeScoreChange: (playerId: number) => void;
 
-  let timer = 10;
+  let timer = 20;
   let interval: number;
   let playerWithNegativeScore:
     | { id: number; name: string; avatar: string; score: number }
@@ -31,7 +27,7 @@
   // Функция для сброса таймера
   function resetTimer() {
     clearInterval(interval);
-    timer = 10;
+    timer = 20;
     startTimer();
   }
 
@@ -72,18 +68,12 @@
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="wrapper">
-    <div class="question-text">{question.question}</div>
+    <div class="question-text">{question?.question}</div>
     <div class="wrapper-2">
       <div class="timer">{timer}</div>
       <button class="skip" on:click={onSkip}>Пропустить</button>
     </div>
   </div>
-
-  {#if playerWithNegativeScore}
-    <div class="negative-message">
-      У игрока {playerWithNegativeScore.name} вычтено {points} баллов.
-    </div>
-  {/if}
 
   <div class="players">
     {#each players as player}
@@ -95,7 +85,7 @@
             on:click={() => handleSubtractPoints(player.id)}
             ><img src={minus} alt="" />
           </button>
-          <div class="score">{question.points}</div>
+          <div class="score">{question?.points}</div>
           <button class="button" on:click={() => handleAddPoints(player.id)}
             ><img src={plus} alt="" /></button
           >
@@ -106,7 +96,6 @@
       </div>
     {/each}
   </div>
-
 </div>
 
 <style>
@@ -253,7 +242,7 @@
     gap: 10px;
     justify-content: space-evenly;
   }
-  
+
   .skip {
     padding: 20px;
     background: black;
