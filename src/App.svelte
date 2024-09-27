@@ -128,6 +128,10 @@
       currentScreen = "questionBoard";
     }
   }
+  
+  const onGameEnd = () => {
+    currentScreen = 'final'
+  }
 </script>
 
 <div class="container">
@@ -136,7 +140,7 @@
   {:else if currentScreen === "characterSelect"}
     <CharacterSelect {characters} onConfirm={handleCharacterSelect} />
   {:else if currentScreen === "questionBoard"}
-    <QuestionBoard {categories} onQuestionSelected={handleQuestionSelection} />
+    <QuestionBoard onGameEnd={onGameEnd} {categories} onQuestionSelected={handleQuestionSelection} />
   {:else if currentScreen === "questionScreen"}
     <QuestionScreen
       question={currentQuestion}

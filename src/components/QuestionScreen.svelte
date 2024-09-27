@@ -17,7 +17,6 @@
   export let onPositiveScoreChange: (playerId: number, points: number) => void;
   export let onNegativeScoreChange: (playerId: number) => void;
 
-  let timer = 20;
   let interval: number;
   let playerWithNegativeScore:
     | { id: number; name: string; avatar: string; score: number }
@@ -31,33 +30,6 @@
   function generateRandomNumber() {
     randomValue = Math.floor(Math.random() * maxNumber) + 1;
   }
-
-  // Функция для сброса таймера
-  function resetTimer() {
-    clearInterval(interval);
-    timer = 20;
-    startTimer();
-  }
-
-  // Запуск таймера
-  function startTimer() {
-    interval = setInterval(() => {
-      if (timer > 0) {
-        timer--;
-      } else {
-        clearInterval(interval);
-        // onSkip(); // Таймер завершен, пропускаем вопрос
-      }
-    }, 1000);
-  }
-
-  onMount(() => {
-    startTimer();
-  });
-
-  onDestroy(() => {
-    clearInterval(interval); // Очищаем интервал при демонтировании компонента
-  });
 
   function handleAddPoints(playerId: number) {
     clearInterval(interval); // Останавливаем таймер при правильном ответе
@@ -77,7 +49,6 @@
   <div class="wrapper">
     <div class="question-text">{question?.question}</div>
     <div class="wrapper-2">
-      <div class="timer">{timer}</div>
       <button class="skip" on:click={onSkip}>Пропустить</button>
     </div>
   </div>
@@ -233,19 +204,6 @@
     font-style: normal;
     font-weight: 500;
     line-height: 40px;
-  }
-
-  .timer {
-    font-size: 48px;
-    display: flex;
-    height: 240px;
-    width: 240px;
-    padding: 35px 20px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
-    background: #000;
-    flex: 0 0 240px;
   }
 
   .players {

@@ -4,6 +4,7 @@
 
   export let categories: QuestionsData; // Указываем, что categories - это QuestionsData
   export let onQuestionSelected: (question: Question, points: number) => void;
+  export let onGameEnd: () => void;
 
   function selectQuestion(categoryIndex: number, questionIndex: number) {
     const question =
@@ -16,6 +17,7 @@
 </script>
 
 <div class="board">
+  <button class="end" on:click={onGameEnd}>Закончить игру</button>
   <img src={oktech} class="logo" alt="logo" />
   <div class="bg1"></div>
   <div class="bg2"></div>
@@ -38,13 +40,23 @@
 </div>
 
 <style>
+  .end {
+    position: absolute;
+    left: 32px;
+    top: 32px;
+    border: none;
+    background: black;
+    padding: 15px;
+    border-radius: 20px;
+    font-size: 24px;
+  }
   h3 {
     margin: 0;
     display: block;
     font-size: 30px;
     font-weight: 600;
   }
-  
+
   .category-name {
     font-size: 48px;
   }
