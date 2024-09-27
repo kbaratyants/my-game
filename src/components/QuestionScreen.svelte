@@ -24,6 +24,14 @@
     | null
     | undefined = null;
 
+  let maxNumber = 5; // Максимальное значение для генерации случайного числа
+  let randomValue = 0; // Случайное число, которое мы будем генерировать
+
+  // Функция для генерации случайного числа от 1 до maxNumber
+  function generateRandomNumber() {
+    randomValue = Math.floor(Math.random() * maxNumber) + 1;
+  }
+
   // Функция для сброса таймера
   function resetTimer() {
     clearInterval(interval);
@@ -59,7 +67,6 @@
   function handleSubtractPoints(playerId: number) {
     playerWithNegativeScore = players.find((player) => player.id === playerId);
     onNegativeScoreChange(playerId);
-    // Таймер не сбрасывается при неправильном ответе
   }
 </script>
 
@@ -83,18 +90,35 @@
           <button
             class="button"
             on:click={() => handleSubtractPoints(player.id)}
-            ><img src={minus} alt="" />
+          >
+            <img src={minus} alt="" />
           </button>
           <div class="score">{question?.points}</div>
-          <button class="button" on:click={() => handleAddPoints(player.id)}
-            ><img src={plus} alt="" /></button
-          >
+          <button class="button" on:click={() => handleAddPoints(player.id)}>
+            <img src={plus} alt="" />
+          </button>
         </div>
         <div class="line"></div>
         <div class="name">{player.name}</div>
         <div class="player-score">{player.score}</div>
       </div>
     {/each}
+  </div>
+
+  <!-- Добавляем поле для ввода максимального значения и кнопку для генерации случайного числа -->
+  <div class="random-number-container">
+    <input
+      type="number"
+      bind:value={maxNumber}
+      min="1"
+      placeholder="Введите число"
+    />
+    <button on:click={generateRandomNumber}
+      >Сгенерировать случайное число</button
+    >
+    {#if randomValue}
+      <div class="random-result">Случайное число: {randomValue}</div>
+    {/if}
   </div>
 </div>
 
@@ -103,37 +127,75 @@
     display: flex;
     gap: 30px;
   }
+
+  .random-number-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .random-number-container input {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+  }
+
+  .random-number-container button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .random-number-container button:hover {
+    background-color: #555;
+  }
+
+  .random-result {
+    margin-top: 10px;
+    font-size: 32px;
+    color: black;
+  }
+
   .name {
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 48px;
   }
+
   .player-score {
     font-size: 36px;
     font-style: normal;
     font-weight: 500;
     line-height: 42px;
   }
+
   .line {
     width: 100%;
     height: 2px;
     background: white;
   }
+
   .logo {
     position: absolute;
     right: 32px;
     top: 32px;
   }
 
-  /* Первое изображение начнет с полной видимости */
   .bg1 {
     background-image: url("../assets/bg1.jpg");
     z-index: -1;
     animation: fade1 25s infinite;
   }
 
-  /* Второе изображение начнет с прозрачности */
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
@@ -150,6 +212,7 @@
     background-size: cover;
     background-position: center;
   }
+
   .question-container {
     display: flex;
     flex-direction: column;
@@ -222,7 +285,6 @@
 
   .button {
     cursor: pointer;
-    /* padding: 5px; */
     width: 48px;
     height: 48px;
     background-color: transparent;
@@ -233,7 +295,7 @@
     font-size: 56px;
     font-style: normal;
     font-weight: 600;
-    line-height: 56px; /* 100% */
+    line-height: 56px;
   }
 
   .wrapper-2 {
@@ -258,7 +320,6 @@
     color: red;
   }
 
-  /* Анимация плавного перехода */
   @keyframes fade1 {
     0% {
       opacity: 1;
@@ -273,7 +334,6 @@
     }
   }
 
-  /* Анимация плавного перехода */
   @keyframes fade2 {
     0% {
       opacity: 0;
