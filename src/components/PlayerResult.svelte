@@ -5,6 +5,7 @@
     | undefined
     | null;
   export let pointsAdded: number;
+  export let answer: string; // Добавляем параметр ответа
   export let onNext: () => void;
 </script>
 
@@ -12,18 +13,29 @@
   <img src={oktech} class="logo" alt="logo" />
   <div class="bg1"></div>
   <div class="bg2"></div>
-  <div class="player-info">
-    <img
-      class="avatar"
-      src={player?.avatar}
-      alt={player?.name}
-      width="150"
-      height="150"
-    />
-    <div class="points">
-      {pointsAdded > 0 ? `+${pointsAdded}` : `${pointsAdded}`}
+
+  {#if pointsAdded > 0}
+    <!-- Положительный ответ: отображаем игрока, баллы и ответ -->
+    <div class="player-info">
+      <img
+        class="avatar"
+        src={player?.avatar}
+        alt={player?.name}
+        width="150"
+        height="150"
+      />
+      <div class="points">+{pointsAdded}</div>
+      <div class="answer-text">Ответ: {answer}</div>
+      <!-- Добавляем текст ответа -->
     </div>
-  </div>
+  {:else}
+    <!-- Отрицательный ответ: только ответ -->
+    <div class="answer-only">
+      <div class="answer-text">Ответ: {answer}</div>
+      <!-- Отображаем только ответ -->
+    </div>
+  {/if}
+
   <button on:click={onNext}>
     <div class="arrow">></div>
   </button>
@@ -69,6 +81,23 @@
     font-weight: 500;
   }
 
+  .answer-text {
+    margin-top: 10px;
+    font-size: 72px;
+    color: black;
+    z-index: 1;
+    background: white;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .answer-only {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
   button {
     font-size: 24px;
     display: flex;
@@ -108,7 +137,6 @@
     animation: fade1 25s infinite;
   }
 
-  /* Второе изображение начнет с прозрачности */
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
@@ -146,7 +174,6 @@
     }
   }
 
-  /* Анимация плавного перехода */
   @keyframes fade2 {
     0% {
       opacity: 0;
