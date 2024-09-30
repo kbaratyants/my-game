@@ -14,21 +14,24 @@
 </script>
 
 <div class="final-container">
-  <img src={oktech} class="logo" alt="logo" />
+  <img src={oktech} class="logo" alt="logo" on:click={() => window.location.reload()} />
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="header">Победитель</div>
-  <div class="container">
+  <div class="players">
     {#each players as player}
-      <div class="character {player.id === winner.id ? 'selected' : ''}">
-        <img src={player.avatar} alt={player.name} />
-        <p>{player.name}</p>
-        <span class="score">{player.score} баллов</span>
+      <div class="player">
+        <img src={player.avatar} alt={player.name} width="100" height="100" />
+        <div class="name">{player.name}</div>
+        <div class="line"></div>
+        <div class="player-score">{player.score}</div>
       </div>
     {/each}
   </div>
 
-  <button class="active" on:click={() => window.location.reload()}>начать новую игру</button>
+  <button class="active" on:click={() => window.location.reload()}
+    >начать новую игру</button
+  >
 </div>
 
 <style>
@@ -38,16 +41,65 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding: 0 40px;
   }
 
+  .player img {
+    width: 200px;
+    height: 200px;
+    border-radius: 42px;
+  }
+
+  .line {
+    width: 100%;
+    height: 2px;
+    background: white;
+  }
   .container {
     display: flex;
+    gap: 24px;
     margin-bottom: 50px;
+  }
+  .name {
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 40px;
+  }
+
+  .player-score {
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 42px;
+  }
+
+  .line {
+    width: 100%;
+    height: 2px;
+    background: white;
+  }
+
+  .players {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    gap: 24px;
+  }
+
+  .player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 56px;
+    background: black;
+    padding: 20px;
+    gap: 8px;
   }
 
   .character {
     cursor: pointer;
-    margin: 10px;
     text-align: center;
     padding: 18px 18px 46px;
     padding: 18px;
@@ -78,21 +130,22 @@
   }
 
   .header {
-    font-size: 48px;
+    font-size: 56px;
+    font-weight: 500;
     margin-bottom: 20px;
   }
 
   .bg1 {
     background-image: url("../assets/bg1.jpg");
     z-index: -1;
-    animation: fade1 25s infinite;
+    animation: fade1 10s infinite;
   }
 
   /* Второе изображение начнет с прозрачности */
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
-    animation: fade2 25s infinite;
+    animation: fade2 10s infinite;
   }
 
   .bg1,
@@ -110,16 +163,17 @@
     position: absolute;
     right: 32px;
     top: 32px;
+    cursor: pointer;
   }
 
   button {
     display: flex;
     justify-content: center;
-    margin: 0 5% 0 5%;
-
-    /* width: 80%; */
-    padding: 36px 88px 42px 64px;
-    font-size: 16px;
+    align-items: center;
+    width: 100%;
+    margin-top: 56px;
+    padding: 0;
+    height: 135px;
 
     border-radius: 120px;
     background: rgba(0, 0, 0, 0.2);
@@ -128,10 +182,9 @@
     color: rgba(255, 255, 255, 0.3);
     cursor: not-allowed;
 
-    text-align: center;
     font-family: Tektur;
-    font-size: 70px;
-    font-style: normal;
+    font-size: 80px;
+    padding-bottom: 12px;
     font-weight: 500;
     transition: all 0.5s;
   }

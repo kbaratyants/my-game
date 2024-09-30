@@ -35,7 +35,9 @@
 
 <div class="board">
   <button class="end" on:click={onGameEnd}>Закончить игру</button>
-  <div class="timer">{Math.floor(timer / 60)}:{(timer % 60 < 10 ? '0' : '') + (timer % 60)}</div>
+  <div class="timer">
+    {Math.floor(timer / 60)}:{(timer % 60 < 10 ? "0" : "") + (timer % 60)}
+  </div>
   <div class="players">
     {#each players as player}
       <div class="player">
@@ -47,17 +49,17 @@
           >
             -
           </button>
+          <div class="player-score">{player.score}</div>
           <button class="button" on:click={() => handleAddPoints(player.id)}>
             +
           </button>
         </div>
         <div class="line"></div>
         <div class="name">{player.name}</div>
-        <div class="player-score">{player.score}</div>
       </div>
     {/each}
   </div>
-  <img src={oktech} class="logo" alt="logo" />
+  <img src={oktech} class="logo" alt="logo" on:click={() => window.location.reload()} />
   <div class="bg1"></div>
   <div class="bg2"></div>
   {#each categories.categories as category, i}
@@ -81,37 +83,45 @@
 <style>
   .timer {
     position: absolute;
-    right: 5%;
-    bottom: 24px;
+    left: 32px;
+    top: 32px;
     font-size: 48px;
     color: white;
   }
-  
+
   .players {
     display: flex;
-    gap: 30px;
+    gap: 38px;
     position: absolute;
-    left: 30%;
-    top: 20px;
+    left: 32px;
+    bottom: 50px;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: black;
   }
 
   .player {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     gap: 4px;
   }
-  
+
   .player-score {
     font-size: 20px;
+    font-weight: 500;
   }
 
   .button {
-    background-color: transparent;
-    border: 2px solid black;
+    background-color: black;
+    border: none;
     border-radius: 100%;
-    color: black;
+    color: white;
     font-size: 20px;
     padding: 4px;
     width: 40px;
@@ -119,25 +129,26 @@
     transition: all 0.3s;
   }
   .button:hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
   }
   .end {
+    border: none;
     position: absolute;
-    left: 5%;
-    top: 32px;
-    border: 3px solid black;
-    background: transparent;
+    right: 32px;
+    bottom: 50px;
+    background: black;
     padding: 15px 20px;
     border-radius: 40px;
     font-size: 24px;
-    color: black;
+    color: white;
     transition: all 0.3s;
+    font-weight: 500;
   }
 
   .end:hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
   }
   h3 {
     margin: 0;
@@ -145,9 +156,11 @@
     font-size: 30px;
     font-weight: 600;
   }
-  
+
   .name {
     font-size: 24px;
+    font-weight: 500;
+    color: black;
   }
 
   .category-name {
@@ -155,18 +168,17 @@
     flex: 1 0 360px;
   }
   .board {
-    height: 72vh;
-    margin-top: 150px;
+    height: 60vh;
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
   }
 
   .category {
     display: flex;
-    width: 90%;
+    width: 80%;
     justify-content: space-between;
     align-items: center;
     gap: 40px;
@@ -176,7 +188,6 @@
     display: flex;
     justify-content: space-between;
     width: 80%;
-    font-size: 1.5vw;
     font-weight: 600;
   }
 
@@ -188,8 +199,9 @@
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
-    font-size: 32px;
+    font-size: 40px;
     border: none;
+    font-weight: 600;
   }
 
   .question:hover {
@@ -211,13 +223,13 @@
   .bg1 {
     background-image: url("../assets/bg1.jpg");
     z-index: -1;
-    animation: fade1 25s infinite;
+    animation: fade1 10s infinite;
   }
 
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
-    animation: fade2 25s infinite;
+    animation: fade2 10s infinite;
   }
 
   .bg1,
@@ -235,6 +247,7 @@
     position: absolute;
     right: 32px;
     top: 32px;
+    cursor: pointer;
   }
 
   @keyframes fade1 {

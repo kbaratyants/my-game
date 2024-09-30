@@ -40,7 +40,7 @@
 </script>
 
 <div class="question-container">
-  <img src={oktech} alt="logo" class="logo" />
+  <img src={oktech} alt="logo" class="logo" on:click={() => window.location.reload()} />
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="wrapper">
@@ -67,8 +67,10 @@
           </button>
         </div>
         <div class="line"></div>
-        <div class="name">{player.name}</div>
-        <div class="player-score">{player.score}</div>
+        <div class="nameandscore">
+          <div class="name">{player.name}</div>
+          <div class="player-score">{player.score}</div>
+        </div>
       </div>
     {/each}
   </div>
@@ -76,10 +78,8 @@
   <!-- Добавляем поле для ввода максимального значения и кнопку для генерации случайного числа -->
   <div class="random-number-container">
     <input
-      type="number"
       bind:value={maxNumber}
       min="1"
-      placeholder="Введите число"
       class="input"
     />
     <button on:click={generateRandomNumber}
@@ -92,6 +92,12 @@
 </div>
 
 <style>
+  .nameandscore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .wrapper {
     display: flex;
     gap: 30px;
@@ -100,17 +106,20 @@
   .random-number-container {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 18px;
     align-items: center;
     margin-top: 50px;
   }
 
   .random-number-container input {
     padding: 10px;
-    font-size: 18px;
-    border-radius: 32px;
+    font-size: 80px;
+    border-radius: 100%;
+    text-align: center;
     border: none;
-    width: 200px;
+    width: 120px;
+    height: 120px;
+    font-weight: 500;
   }
   
   input:focus {
@@ -119,7 +128,7 @@
 
   .random-number-container button {
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 24px;
     background-color: black;
     color: white;
     border: none;
@@ -163,18 +172,19 @@
     position: absolute;
     right: 32px;
     top: 32px;
+    cursor: pointer;
   }
 
   .bg1 {
     background-image: url("../assets/bg1.jpg");
     z-index: -1;
-    animation: fade1 25s infinite;
+    animation: fade1 10s infinite;
   }
 
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
-    animation: fade2 25s infinite;
+    animation: fade2 10s infinite;
   }
 
   .bg1,
@@ -199,7 +209,6 @@
   }
 
   .question-text {
-    margin-bottom: 20px;
     border-radius: 50px;
     background: var(--Black, #000);
     padding: 32px;
@@ -212,16 +221,17 @@
 
   .players {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 40px;
+    gap: 24px;
   }
 
   .player {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
+    gap: 8px;
     border-radius: 56px;
     background: black;
     padding: 20px;
@@ -235,8 +245,8 @@
 
   .buttons {
     display: flex;
-    justify-content: space-evenly;
     width: 100%;
+    gap: 12px;
     margin-top: 10px;
   }
 
@@ -254,7 +264,7 @@
   }
 
   .score {
-    font-size: 56px;
+    font-size: 42px;
     font-style: normal;
     font-weight: 600;
     line-height: 56px;

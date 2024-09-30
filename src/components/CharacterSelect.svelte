@@ -29,7 +29,7 @@
 </script>
 
 <div class="wrap">
-  <img src={oktech} class="logo" alt="logo" />
+  <img src={oktech} class="logo" alt="logo" on:click={() => window.location.reload()} />
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="text">
@@ -48,7 +48,7 @@
         on:click={() => selectCharacter(character)}
       >
         <img src={character.avatar} alt={character.name} />
-        <p>{character.name}</p>
+        <div>{character.name}</div>
       </div>
     {/each}
   </div>
@@ -78,6 +78,7 @@
     position: absolute;
     right: 32px;
     top: 32px;
+    cursor: pointer;
   }
   .text {
     display: flex;
@@ -90,23 +91,23 @@
   .bg1 {
     background-image: url("../assets/bg1.jpg");
     z-index: -1;
-    animation: fade1 25s infinite;
+    animation: fade1 10s infinite;
   }
 
   /* Второе изображение начнет с прозрачности */
   .bg2 {
     background-image: url("../assets/bg2.jpg");
     z-index: -2;
-    animation: fade2 25s infinite;
+    animation: fade2 10s infinite;
   }
 
   .choose,
   .counter {
     color: black;
     font-family: Tektur;
-    font-size: 80px;
+    font-size: 56px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 96px; /* 120% */
   }
 
@@ -132,11 +133,15 @@
     margin: 10px;
     text-align: center;
     padding: 18px;
+    padding-bottom: 22px;
     align-items: center;
-    border-radius: 48px;
+    border-radius: 42px;
     background: rgba(0, 0, 0, 0.2);
     font-size: 24px;
     transition: background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
   /* Стили для самого скроллбара */
@@ -157,12 +162,10 @@
   button {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 0 40px 0 40px;
     padding: 0;
-
-    /* width: 80%; */
-    /* padding: 36px 88px 42px 64px; */
-    font-size: 16px;
+    height: 135px;
 
     border-radius: 120px;
     background: rgba(0, 0, 0, 0.2);
@@ -171,10 +174,9 @@
     color: rgba(255, 255, 255, 0.3);
     cursor: not-allowed;
 
-    text-align: center;
     font-family: Tektur;
-    font-size: 104px;
-    font-style: normal;
+    font-size: 80px;
+    padding-bottom: 12px;
     font-weight: 500;
     transition: all 0.5s;
   }

@@ -12,24 +12,26 @@
 </script>
 
 <div class="container">
-  <div class="content">
-    <div class="logo">
-      <img src={oktech} alt="logo" />
-    </div>
-    <div class="name">
-      <img src={mygame} alt="text" />
-      <button on:click={startGame}>
-        <div class="arrow">></div>
-      </button>
-    </div>
+  <img class="mygame" src={mygame} alt="text" />
+  <div class="logo">
+    <img src={oktech} alt="logo" />
   </div>
+  <button on:click={startGame}>
+    <div class="arrow">></div>
+  </button>
+  <!-- <div class="content">
+    <div class="name">
+    </div>
+  </div> -->
 </div>
 
 <style>
-  img {
+  .mygame {
     display: block;
-    height: 100%;
-    width: 100%;
+    width: 85%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 
   .arrow {
@@ -60,7 +62,7 @@
     cursor: pointer;
     position: absolute;
     transition: all 0.3s;
-    right: 7vw;
+    right: 3vw;
     bottom: 3vw;
     padding-left: 5vw;
     border-radius: 100%;
@@ -87,8 +89,10 @@
   }
 
   .logo {
-    width: 20%;
-    align-self: baseline;
+    position: absolute;
+    top: 41px;
+    left: 45px;
+    width: 400px;
   }
   .name {
     height: 80%;
