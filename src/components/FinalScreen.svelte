@@ -20,7 +20,7 @@
   <div class="header">Победитель</div>
   <div class="players">
     {#each players as player}
-      <div class="player">
+      <div class="player {player.id === winner.id ? 'selected' : ''}">
         <img src={player.avatar} alt={player.name} width="100" height="100" />
         <div class="name">{player.name}</div>
         <div class="line"></div>
@@ -93,7 +93,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: 56px;
-    background: black;
+    background: rgba(0, 0, 0, 0.20);
     padding: 20px;
     gap: 8px;
   }
