@@ -122,21 +122,21 @@
   }
 
   .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 10px 40px;
   }
   .character {
     cursor: pointer;
     margin: 10px;
     text-align: center;
-    padding: 24px;
+    padding: 18px;
     align-items: center;
-    border-radius: 72px;
+    border-radius: 48px;
     background: rgba(0, 0, 0, 0.2);
     font-size: 24px;
     transition: background-color 0.3s;
-    flex: 1 1 200px;
   }
 
   /* Стили для самого скроллбара */
@@ -157,7 +157,8 @@
   button {
     display: flex;
     justify-content: center;
-    margin: 0 5% 0 5%;
+    margin: 0 40px 0 40px;
+    padding: 0;
 
     /* width: 80%; */
     /* padding: 36px 88px 42px 64px; */

@@ -5,6 +5,23 @@
   export let categories: QuestionsData; // Указываем, что categories - это QuestionsData
   export let onQuestionSelected: (question: Question, points: number) => void;
   export let onGameEnd: () => void;
+  export let players: {
+    id: number;
+    name: string;
+    avatar: string;
+    score: number;
+  }[];
+  export let onPositiveScoreChange: (playerId: number) => void;
+  export let onNegativeScoreChange: (playerId: number) => void;
+  export let timer: number;
+
+  function handleAddPoints(playerId: number) {
+    onPositiveScoreChange(playerId);
+  }
+
+  function handleSubtractPoints(playerId: number) {
+    onNegativeScoreChange(playerId);
+  }
 
   function selectQuestion(categoryIndex: number, questionIndex: number) {
     const question =
@@ -18,6 +35,28 @@
 
 <div class="board">
   <button class="end" on:click={onGameEnd}>Закончить игру</button>
+  <div class="timer">{Math.floor(timer / 60)}:{(timer % 60 < 10 ? '0' : '') + (timer % 60)}</div>
+  <div class="players">
+    {#each players as player}
+      <div class="player">
+        <!-- <img src={player.avatar} alt={player.name} width="100" height="100" /> -->
+        <div class="buttons">
+          <button
+            class="button"
+            on:click={() => handleSubtractPoints(player.id)}
+          >
+            -
+          </button>
+          <button class="button" on:click={() => handleAddPoints(player.id)}>
+            +
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="name">{player.name}</div>
+        <div class="player-score">{player.score}</div>
+      </div>
+    {/each}
+  </div>
   <img src={oktech} class="logo" alt="logo" />
   <div class="bg1"></div>
   <div class="bg2"></div>
@@ -27,12 +66,12 @@
       <h3 class="category-name">{category.name}</h3>
       <div class="questions">
         {#each category.questions as question, j}
-          <div
+          <button
             class="question {question.selected ? 'selected' : ''}"
             on:click={() => selectQuestion(i, j)}
           >
             {"+" + question.points}
-          </div>
+          </button>
         {/each}
       </div>
     </div>
@@ -40,15 +79,65 @@
 </div>
 
 <style>
+  .timer {
+    position: absolute;
+    right: 5%;
+    bottom: 24px;
+    font-size: 48px;
+    color: white;
+  }
+  
+  .players {
+    display: flex;
+    gap: 30px;
+    position: absolute;
+    left: 30%;
+    top: 20px;
+  }
+
+  .player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    gap: 4px;
+  }
+  
+  .player-score {
+    font-size: 20px;
+  }
+
+  .button {
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 100%;
+    color: black;
+    font-size: 20px;
+    padding: 4px;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s;
+  }
+  .button:hover {
+    background-color: black;
+    color: white;
+  }
   .end {
     position: absolute;
-    left: 32px;
+    left: 5%;
     top: 32px;
-    border: none;
-    background: black;
-    padding: 15px;
-    border-radius: 20px;
+    border: 3px solid black;
+    background: transparent;
+    padding: 15px 20px;
+    border-radius: 40px;
     font-size: 24px;
+    color: black;
+    transition: all 0.3s;
+  }
+
+  .end:hover {
+    background-color: black;
+    color: white;
   }
   h3 {
     margin: 0;
@@ -56,9 +145,14 @@
     font-size: 30px;
     font-weight: 600;
   }
+  
+  .name {
+    font-size: 24px;
+  }
 
   .category-name {
     font-size: 48px;
+    flex: 1 0 360px;
   }
   .board {
     height: 72vh;
@@ -75,25 +169,27 @@
     width: 90%;
     justify-content: space-between;
     align-items: center;
+    gap: 40px;
   }
 
   .questions {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 80%;
     font-size: 1.5vw;
     font-weight: 600;
   }
 
   .question {
-    border-radius: 50px;
-    padding: 28px 36px;
+    border-radius: 64px;
+    padding: 32px 40px;
     background: black;
     color: white;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
     font-size: 32px;
+    border: none;
   }
 
   .question:hover {

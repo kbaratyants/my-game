@@ -90,6 +90,7 @@
     background: white;
     padding: 16px;
     border-radius: 16px;
+    max-width: 90%;
   }
 
   .answer-only {

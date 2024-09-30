@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
   import oktech from "../assets/oktech-logo.svg";
   import plus from "../assets/plus.svg";
   import minus from "../assets/minus.svg";
@@ -17,7 +16,6 @@
   export let onPositiveScoreChange: (playerId: number, points: number) => void;
   export let onNegativeScoreChange: (playerId: number) => void;
 
-  let interval: number;
   let playerWithNegativeScore:
     | { id: number; name: string; avatar: string; score: number }
     | null
@@ -32,7 +30,6 @@
   }
 
   function handleAddPoints(playerId: number) {
-    clearInterval(interval); // Останавливаем таймер при правильном ответе
     onPositiveScoreChange(playerId, points);
   }
 
@@ -49,7 +46,7 @@
   <div class="wrapper">
     <div class="question-text">{question?.question}</div>
     <div class="wrapper-2">
-      <button class="skip" on:click={onSkip}>Пропустить</button>
+      <button class="skip" on:click={onSkip}>пропустить</button>
     </div>
   </div>
 
@@ -83,6 +80,7 @@
       bind:value={maxNumber}
       min="1"
       placeholder="Введите число"
+      class="input"
     />
     <button on:click={generateRandomNumber}
       >Сгенерировать случайное число</button
@@ -104,15 +102,19 @@
     justify-content: space-between;
     gap: 10px;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 50px;
   }
 
   .random-number-container input {
     padding: 10px;
     font-size: 18px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-radius: 32px;
+    border: none;
     width: 200px;
+  }
+  
+  input:focus {
+    outline: none;
   }
 
   .random-number-container button {
@@ -121,12 +123,14 @@
     background-color: black;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 32px;
     cursor: pointer;
+    transition: all 0.3s;
   }
 
   .random-number-container button:hover {
-    background-color: #555;
+    background-color: white;
+    color: black;
   }
 
   .random-result {
@@ -136,10 +140,10 @@
   }
 
   .name {
-    font-size: 32px;
+    font-size: 26px;
     font-style: normal;
     font-weight: 500;
-    line-height: 48px;
+    line-height: 40px;
   }
 
   .player-score {
@@ -271,12 +275,13 @@
     cursor: pointer;
     font-size: 24px;
     color: white;
+    font-weight: 600;
+    transition: all 0.3s;
   }
 
-  .negative-message {
-    margin-top: 20px;
-    font-size: 18px;
-    color: red;
+  .skip:hover {
+    background: white;
+    color: black;
   }
 
   @keyframes fade1 {

@@ -28,7 +28,7 @@
     {/each}
   </div>
 
-  <button class="active">начать новую игру</button>
+  <button class="active" on:click={() => window.location.reload()}>начать новую игру</button>
 </div>
 
 <style>
@@ -59,8 +59,8 @@
   }
 
   .character img {
-    width: 280px;
-    height: 280px;
+    width: 240px;
+    height: 240px;
     border-radius: 56px;
   }
 
