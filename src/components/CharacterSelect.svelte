@@ -35,7 +35,7 @@
   <div class="text">
     <div class="choose">Выбери от 2 до 4 игроков</div>
     <div class="counter">
-      <span class="number" class:active={selectedCharacters.length}>{selectedCharacters.length}</span> / 5
+      <span class="number" class:active={selectedCharacters.length}>{selectedCharacters.length}</span> / 4
     </div>
   </div>
   <div
