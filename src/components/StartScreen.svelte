@@ -3,6 +3,8 @@
   import mygame from "../assets/mygame.svg";
 
   export let onStartGame: () => void; // Тип функции для начала игры
+  export let isLoading: boolean = false;
+  export let hasError: boolean = false;
 
   function startGame() {
     if (onStartGame) {
@@ -16,9 +18,12 @@
   <div class="logo">
     <img src={oktech} alt="logo" />
   </div>
-  <button on:click={startGame}>
+  <button on:click={startGame} disabled={isLoading || hasError}>
     <div class="arrow">></div>
   </button>
+  {#if hasError}
+    <div class="error-message">Ошибка загрузки вопросов. Попробуйте позже.</div>
+  {/if}
   <!-- <div class="content">
     <div class="name">
     </div>
@@ -26,6 +31,19 @@
 </div>
 
 <style>
+  .error-message {
+    position: absolute;
+    bottom: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background-color: rgba(255, 0, 0, 0.8);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
   .mygame {
     display: block;
     width: 85%;
@@ -70,6 +88,11 @@
     border: none;
     width: 15vw;
     height: 15vw;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 
   button:hover {

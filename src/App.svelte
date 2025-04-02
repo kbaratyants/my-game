@@ -13,12 +13,35 @@
     QuestionsData,
   } from "./components/types";
   import { characters } from "./mocks/chatracters";
-  import questions from "./mocks/questions.json"; // Убедитесь, что у вас TypeScript поддерживает это
+  // import questions from "./mocks/questions.json"; // Убедитесь, что у вас TypeScript поддерживает это
   import { onDestroy } from "svelte";
 
-  const categories: QuestionsData = getRandomQuestions(
-    questions as QuestionsData
-  );
+  let categories: QuestionsData | null = null;
+  let abortController = new AbortController();
+  let isLoading = true;
+  let hasError = false;
+
+  const fetchQuestions = async () => {
+    console.log("fetchQuestions");
+    try {
+      const res = await fetch(
+        "https://script.google.com/macros/s/AKfycbz1qXns0NB8AHyNJ3wGKJ26M1Qp20faUOQ--jkypm7jj67LTSbhHS1U9h3VXOAp625G/exec",
+        { signal: abortController.signal }
+      );
+      const data: QuestionsData = await res.json();
+      categories = getRandomQuestions(data);
+    } catch (err) {
+      hasError = true;
+    } finally {
+      isLoading = false;
+    }
+  };
+
+  fetchQuestions();
+
+  onDestroy(() => {
+    abortController.abort();
+  });
 
   let timer = 600; // 10 минут в секундах
   let interval: number;
@@ -105,7 +128,6 @@
     }));
     currentScreen = "questionBoard";
     startTimer();
-    console.log('timer started')
   }
 
   function handleQuestionSelection(question: Question, points: number) {
@@ -188,7 +210,7 @@
 
 <div class="container">
   {#if currentScreen === "start"}
-    <StartScreen onStartGame={handleStartGame} />
+    <StartScreen onStartGame={handleStartGame} {isLoading} {hasError} />
   {:else if currentScreen === "characterSelect"}
     <CharacterSelect {characters} onConfirm={handleCharacterSelect} />
   {:else if currentScreen === "questionBoard"}
