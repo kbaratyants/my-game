@@ -14,7 +14,7 @@
       selectedCharacters = selectedCharacters.filter(
         (c) => c.id !== character.id
       );
-    } else if (selectedCharacters.length < 5) {
+    } else if (selectedCharacters.length < 4) {
       selectedCharacters = [...selectedCharacters, character];
     }
   }
@@ -33,7 +33,7 @@
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="text">
-    <div class="choose">Выбери от 2 до 5 игроков</div>
+    <div class="choose">Выбери от 2 до 4 игроков</div>
     <div class="counter">
       <span class="number" class:active={selectedCharacters.length}>{selectedCharacters.length}</span> / 5
     </div>
