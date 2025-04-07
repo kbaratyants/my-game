@@ -1,5 +1,5 @@
 <script lang="ts">
-  import oktech from "../assets/oktech.svg";
+  import oktech from "../assets/oktech-logo.svg";
   import mygame from "../assets/mygame.svg";
 
   export let onStartGame: () => void; // Тип функции для начала игры
@@ -115,7 +115,11 @@
     position: absolute;
     top: 41px;
     left: 45px;
-    width: 400px;
+    height: 160px;
+  }
+  
+  img {
+    height: 100%;
   }
   .name {
     height: 80%;
