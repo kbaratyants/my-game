@@ -59,7 +59,9 @@
       </div>
     {/each}
   </div>
-  <img src={oktech} class="logo" alt="logo" on:click={() => window.location.reload()} />
+  <button class="logo-button" on:click={() => window.location.reload()} aria-label="Перезагрузить страницу">
+    <img src={oktech} class="logo" alt="logo" />
+  </button>
   <div class="bg1"></div>
   <div class="bg2"></div>
   {#each categories.categories as category, i}
@@ -220,6 +222,7 @@
     cursor: not-allowed;
   }
 
+
   .bg1 {
     background-image: url("../assets/bg1.jpg");
     z-index: -1;
@@ -243,11 +246,19 @@
     background-position: center;
   }
 
-  .logo {
+  .logo-button {
     position: absolute;
     right: 32px;
     top: 32px;
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 0;
+  }
+
+  .logo {
+    width: 200px;
+    height: 100px;
   }
 
   @keyframes fade1 {

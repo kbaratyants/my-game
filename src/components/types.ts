@@ -10,6 +10,7 @@ export type Question = {
   points: number;
   question: string;
   selected: boolean;
+  image?: string; // Путь к изображению для вопроса
   randomQuestion?: Question; // Для хранения случайного вопроса
 };
 

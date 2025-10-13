@@ -16,6 +16,32 @@
   export let onPositiveScoreChange: (playerId: number, points: number) => void;
   export let onNegativeScoreChange: (playerId: number) => void;
 
+  // Состояние загрузки изображения
+  let imageLoading = false;
+  let imageError = false;
+
+  // Сброс состояния при смене вопроса
+  $: if (question?.image) {
+    imageLoading = true;
+    imageError = false;
+    // Предзагрузка изображения
+    preloadImage(question.image);
+  }
+
+  // Функция предзагрузки изображения
+  function preloadImage(imageUrl: string) {
+    const img = new Image();
+    img.onload = () => {
+      imageLoading = false;
+      imageError = false;
+    };
+    img.onerror = () => {
+      imageLoading = false;
+      imageError = true;
+    };
+    img.src = getThumbnailUrl(imageUrl);
+  }
+
   let playerWithNegativeScore:
     | { id: number; name: string; avatar: string; score: number }
     | null
@@ -23,6 +49,26 @@
 
   let maxNumber = players.length; // Максимальное значение для генерации случайного числа
   let randomValue = 0; // Случайное число, которое мы будем генерировать
+
+  // Функция для преобразования ссылки Cloud Mail.ru в рабочую ссылку на миниатюру
+  function getThumbnailUrl(originalUrl: string): string {
+    if (!originalUrl) return '';
+    
+    // Проверяем, является ли это ссылкой Cloud Mail.ru
+    if (originalUrl.startsWith('https://cloud.mail.ru/public/')) {
+      // Извлекаем ID из URL: https://cloud.mail.ru/public/iyPk/kDmff75nQ
+      const match = originalUrl.match(/https:\/\/cloud\.mail\.ru\/public\/([^\/]+)\/([^\/\?]+)/);
+      if (match) {
+        const [, folderId, fileId] = match;
+        // Создаем ссылку на миниатюру: https://thumb.cloud.mail.ru/weblink/thumb/xw1/iyPk/kDmff75nQ
+        return `https://thumb.cloud.mail.ru/weblink/thumb/xw1/${folderId}/${fileId}`;
+      }
+    }
+    
+    // Если это не Cloud Mail.ru, возвращаем как есть
+    return originalUrl;
+  }
+
 
   // Функция для генерации случайного числа от 1 до maxNumber
   function generateRandomNumber() {
@@ -40,11 +86,34 @@
 </script>
 
 <div class="question-container">
-  <img src={oktech} alt="logo" class="logo" on:click={() => window.location.reload()} />
+  <button class="logo" on:click={() => window.location.reload()} aria-label="Перезагрузить игру">
+    <img src={oktech} alt="logo" />
+  </button>
   <div class="bg1"></div>
   <div class="bg2"></div>
   <div class="wrapper">
-    <div class="question-text">{question?.question}</div>
+    <div class="question-content">
+      <div class="question-text">{question?.question}</div>
+      {#if question?.image}
+        <div class="question-image">
+          {#if imageLoading}
+            <div class="image-loader">
+              <div class="spinner"></div>
+              <p>Загрузка изображения...</p>
+            </div>
+          {:else if imageError}
+            <div class="image-error">
+              <p>Ошибка загрузки изображения</p>
+            </div>
+          {:else}
+            <img 
+              src={getThumbnailUrl(question.image)} 
+              alt="Изображение к вопросу"
+            />
+          {/if}
+        </div>
+      {/if}
+    </div>
     <div class="wrapper-2">
       <button class="skip" on:click={onSkip}>пропустить</button>
     </div>
@@ -173,6 +242,14 @@
     right: 32px;
     top: 32px;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .logo img {
+    width: 100%;
+    height: 100%;
   }
 
   .bg1 {
@@ -208,15 +285,76 @@
     flex-shrink: 1;
   }
 
+  .question-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
   .question-text {
     border-radius: 50px;
     background: var(--Black, #000);
     padding: 32px;
-
+    color: white;
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 40px;
+    text-align: center;
+  }
+
+  .question-image {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .question-image img {
+    width: 100%;
+    height: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    display: block;
+    border-radius: 10px;
+  }
+
+  .image-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: white;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #ff7700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .image-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: #ff6b6b;
+    text-align: center;
   }
 
   .players {

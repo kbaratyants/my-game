@@ -13,7 +13,7 @@
     QuestionsData,
   } from "./components/types";
   import { characters } from "./mocks/chatracters";
-  // import questions from "./mocks/questions.json"; // Убедитесь, что у вас TypeScript поддерживает это
+  // import questions from "./mocks/questions.json";
   import { onDestroy } from "svelte";
 
   let categories: QuestionsData | null = null;
@@ -25,7 +25,7 @@
     console.log("fetchQuestions");
     try {
       const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbz1qXns0NB8AHyNJ3wGKJ26M1Qp20faUOQ--jkypm7jj67LTSbhHS1U9h3VXOAp625G/exec",
+        "https://script.google.com/macros/s/AKfycbyfvyl_F8DFZDylR81PwARgKgNB7PdYaka0w2FCIFar1AHu0EXbAF7D6zk3_3X3hiVH/exec",
         { signal: abortController.signal }
       );
       const data: QuestionsData = await res.json();
@@ -192,9 +192,9 @@
   }
 
   function nextQuestion() {
-    const allQuestionsSelected = categories.categories.every((category) =>
-      category.questions.every((q) => q.selected)
-    );
+    const allQuestionsSelected = categories?.categories.every((category: Category) =>
+      category.questions.every((q: Question) => q.selected)
+    ) || false;
 
     if (allQuestionsSelected) {
       currentScreen = "final";
@@ -219,8 +219,8 @@
       {players}
       onPositiveScoreChange={handlePositiveScoreChange1}
       onNegativeScoreChange={handleNegativeScoreChange1}
-      {onGameEnd}
-      {categories}
+      onGameEnd={onGameEnd}
+      categories={categories || { categories: [] }}
       onQuestionSelected={handleQuestionSelection}
     />
   {:else if currentScreen === "questionScreen"}
