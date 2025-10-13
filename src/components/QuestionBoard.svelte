@@ -1,5 +1,5 @@
 <script lang="ts">
-  import oktech from "../assets/oktech-logo.svg";
+  import vk from "../assets/vk-logo.svg";
   import type { QuestionsData, Question } from "./types"; // Убедитесь, что Question импортируется из types
 
   export let categories: QuestionsData; // Указываем, что categories - это QuestionsData
@@ -60,10 +60,10 @@
     {/each}
   </div>
   <button class="logo-button" on:click={() => window.location.reload()} aria-label="Перезагрузить страницу">
-    <img src={oktech} class="logo" alt="logo" />
+    <img src={vk} class="logo" alt="logo" />
   </button>
   <div class="bg1"></div>
-  <div class="bg2"></div>
+  <!-- <div class="bg2"></div> -->
   {#each categories.categories as category, i}
     <!-- Исправлено: добавлен доступ к categories -->
     <div class="category">
@@ -176,6 +176,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-color: #0077FF;
   }
 
   .category {
@@ -224,9 +225,9 @@
 
 
   .bg1 {
-    background-image: url("../assets/bg1.jpg");
+    background-color: #0077FF;
     z-index: -1;
-    animation: fade1 10s infinite;
+    /* animation: fade1 10s infinite; */
   }
 
   .bg2 {

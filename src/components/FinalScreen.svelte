@@ -1,5 +1,5 @@
 <script lang="ts">
-  import oktech from "../assets/oktech-logo.svg";
+  import vk from "../assets/vk-logo.svg";
   export let players: {
     id: number;
     name: string;
@@ -14,9 +14,9 @@
 </script>
 
 <div class="final-container">
-  <img src={oktech} class="logo" alt="logo" on:click={() => window.location.reload()} />
+  <img src={vk} class="logo" alt="logo" on:click={() => window.location.reload()} />
   <div class="bg1"></div>
-  <div class="bg2"></div>
+  <!-- <div class="bg2"></div> -->
   <div class="header">Победитель</div>
   <div class="players">
     {#each players as player}
@@ -136,9 +136,8 @@
   }
 
   .bg1 {
-    background-image: url("../assets/bg1.jpg");
+    background-color: #0077FF;
     z-index: -1;
-    animation: fade1 10s infinite;
   }
 
   /* Второе изображение начнет с прозрачности */

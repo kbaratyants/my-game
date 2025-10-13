@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Character } from "./types";
-  import oktech from "../assets/oktech-logo.svg";
+  import vk from "../assets/vk-logo.svg";
 
   export let characters: { id: number; name: string; avatar: string }[];
   export let onConfirm: (
@@ -29,9 +29,9 @@
 </script>
 
 <div class="wrap">
-  <img src={oktech} class="logo" alt="logo" on:click={() => window.location.reload()} />
+  <img src={vk} style="width: 62px; height: 62px;" class="logo" alt="logo" on:click={() => window.location.reload()} />
   <div class="bg1"></div>
-  <div class="bg2"></div>
+  <!-- <div class="bg2"></div> -->
   <div class="text">
     <div class="choose">Выбери от 2 до 4 игроков</div>
     <div class="counter">
@@ -89,9 +89,9 @@
 
   /* Первое изображение начнет с полной видимости */
   .bg1 {
-    background-image: url("../assets/bg1.jpg");
+    background-color: #0077FF;
     z-index: -1;
-    animation: fade1 10s infinite;
+    /* animation: fade1 10s infinite; */
   }
 
   /* Второе изображение начнет с прозрачности */

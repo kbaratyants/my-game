@@ -1,5 +1,5 @@
 <script lang="ts">
-  import oktech from "../assets/oktech-logo.svg";
+  import vk from "../assets/vk-logo.svg";
   import plus from "../assets/plus.svg";
   import minus from "../assets/minus.svg";
   import type { Question } from "./types";
@@ -87,10 +87,10 @@
 
 <div class="question-container">
   <button class="logo" on:click={() => window.location.reload()} aria-label="Перезагрузить игру">
-    <img src={oktech} alt="logo" />
+    <img src={vk} alt="logo" />
   </button>
   <div class="bg1"></div>
-  <div class="bg2"></div>
+  <!-- <div class="bg2"></div> -->
   <div class="wrapper">
     <div class="question-content">
       <div class="question-text">{question?.question}</div>
@@ -253,9 +253,8 @@
   }
 
   .bg1 {
-    background-image: url("../assets/bg1.jpg");
+    background-color: #0077FF;
     z-index: -1;
-    animation: fade1 10s infinite;
   }
 
   .bg2 {

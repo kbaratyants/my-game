@@ -1,5 +1,5 @@
 <script lang="ts">
-  import oktech from "../assets/oktech-logo.svg";
+  import vk from "../assets/vk-logo.svg";
   import mygame from "../assets/mygame.svg";
 
   export let onStartGame: () => void; // Тип функции для начала игры
@@ -16,7 +16,7 @@
 <div class="container">
   <img class="mygame" src={mygame} alt="text" />
   <div class="logo">
-    <img src={oktech} alt="logo" />
+    <img src={vk} alt="logo" />
   </div>
   <button on:click={startGame} disabled={isLoading || hasError}>
     <div class="arrow">></div>
@@ -71,7 +71,7 @@
 
   .container {
     height: 100vh;
-    background: url("../assets/startBg.jpg") center / cover no-repeat;
+    background-color: #0077FF;
   }
   button {
     font-size: 24px;
