@@ -43,7 +43,7 @@
     console.log("fetchQuestions");
     try {
       const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbyfvyl_F8DFZDylR81PwARgKgNB7PdYaka0w2FCIFar1AHu0EXbAF7D6zk3_3X3hiVH/exec",
+        "https://script.google.com/macros/s/AKfycbyRUgQaRd2rx6wCHEU0e-9xXSukyNhu9EmoPcO6fD0Mpkb9ac5DA7_YzOFfDVRna6Vo/exec",
         { signal: abortController.signal }
       );
       const data = await res.json();
