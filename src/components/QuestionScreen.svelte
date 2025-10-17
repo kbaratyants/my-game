@@ -145,7 +145,7 @@
   </div>
 
   <!-- Добавляем поле для ввода максимального значения и кнопку для генерации случайного числа -->
-  <div class="random-number-container">
+  <!-- <div class="random-number-container">
     <input
       bind:value={maxNumber}
       min="1"
@@ -157,7 +157,7 @@
     {#if randomValue}
       <div class="random-result">Случайное число: {randomValue}</div>
     {/if}
-  </div>
+  </div> -->
 </div>
 
 <style>
@@ -305,7 +305,7 @@
 
   .question-image {
     max-width: 100%;
-    max-height: 400px;
+    max-height: 250px;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
